@@ -90,14 +90,14 @@ DB_PASSWORD_YO = os.environ['DB_PASSWORD_YO']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
+        'NAME': os.getenv('PGDATABASE', 'railway'),
+        'USER': os.getenv('PGUSER', 'postgres'),
         'PASSWORD': DB_PASSWORD_YO,
-        'HOST': 'shortline.proxy.rlwy.net',
-        'PORT': '5432',
-
+        'HOST': os.getenv('PGHOST', 'postgres.railway.internal'),
+        'PORT': os.getenv('PGPORT', '5432'),
     }
 }
+
 
 
 
