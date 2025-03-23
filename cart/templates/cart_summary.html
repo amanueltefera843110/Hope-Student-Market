@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder"> 
+                    Shopping cart </h1>
+                    <br/>
+                    {{cart_products}}
+               
+               
+
+                    <p class="lead fw-normal text-white-50 mb-0">View Your Cart</p>
+                </div>
+            </div>
+
+
+        </header>
+         <br/><br/><br/>
+        <div class ="container">
+{% if cart_products %}
+
+    {% for product in cart_products %}
+        <div class="card p-3 shadow-sm mb-3">
+            <div class="row g-3 align-items-center">
+                
+                <!-- Product Image -->
+                <div class="col-md-2 text-center">
+                    <img src="{{ product.image.url }}" class="img-fluid rounded" style="max-width: 120px; height: auto;" alt="{{ product.name }}">
+                </div>
+
+                <!-- Product Details -->
+                <div class="col-md-5">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted small">{{ product.description }}</p>
+
+                    {% if product.is_sale %}
+                        <div class="badge bg-danger text-white mb-2">Sale!</div>
+                        <p class="card-text">
+                            <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                            <span class="text-danger fw-bold ms-2">${{ product.sale_price }}</span>
+                        </p>
+                    {% else %}
+                        <p class="card-text text-success fw-bold">${{ product.price }}</p>
+                    {% endif %}
+                    <br/>
+                    <br/>
+<select id="select{{product.id}}" class="form-select me-3" style="width: auto;">
+    {% for key, value in quantities.items %}
+        {% if key == product.id|stringformat:"s" %}
+            <option value="{{ value }}" selected>{{ value }}</option>
+        {% endif %}
+    {% endfor %}
+    {4:3}
+
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
+</select>
+
+                    <br/>
+
+                  <div class="col-md-2 text-center">
+                    <button type ='button' data-index="{{product.id}}" class="btn btn-secondary update-cart">Update</button>
+                </div>
+                    <br/>
+                </div>
+
+     
+
+                <!-- Remove Button -->
+                <div class="col-md-2 text-center">
+                    <button type ='button' data-index="{{product.id}}" class="btn btn-danger delete-product">Remove</button>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+      <br/><br/><br/>
+      <div align="right">
+    <strong> Totale: ${{ totals }}</strong>
+    <a href="{% url 'checkout' %}" class='btn btn-success'>Checkout</a>
+    </div>
+      <br/><br/><br/>
+ {% else %}
+    There is Nothing in the Cart
+    <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+        <br/><br/><br/>
+{% endif %}
+    </div>
+<script>
+    //updat cart 
+$(document).on('click', '.update-cart', function(e) {
+    e.preventDefault(); 
+    //grab the product
+    var productid  = $(this).data('index')
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_update' %}',  
+        data: {
+            product_id:  $(this).data('index'),
+            product_qty: $('#select'+ productid + ' option:selected').text(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+
+           location.reload()//reload the page
+        },
+        error: function(xhr, errmsg, err) {
+            console.log(errmsg);
+        }
+    });
+});
+//delete cart
+$(document).on('click', '.delete-product', function(e) {
+    e.preventDefault(); 
+    //grab the product
+    //var productid  = $(this).data('index')
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_delete' %}',  
+        data: {
+            product_id:  $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+
+           location.reload()//reload the page
+        },
+        error: function(xhr, errmsg, err) {
+            
+        }
+    });
+});
+</script>
+    {% endblock %}
