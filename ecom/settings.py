@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-6hlyx@1bn)l9f@vo7r0$l@n83wxnus*5h^y7zdhe^yl3@0jvyu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
-CSRF_TRUSTED_ORIGINS =['http://hope-student-market-production.up.railway.app']
+#ALLOWED_HOSTS = ["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
+#CSRF_TRUSTED_ORIGINS =['http://hope-student-market-production.up.railway.app']
 
 
 
@@ -86,16 +86,18 @@ WSGI_APPLICATION = "ecom.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE', 'railway'),
-        'USER': os.environ.get('PGUSER', 'postgres'),
-        'PASSWORD': os.environ.get('PGPASSWORD'),
-        'HOST': os.environ.get('PGHOST', 'postgres.railway.internal'),
-        'PORT': os.environ.get('PGPORT', '5432'),
+        'NAME': os.environ['PGDATABASE'],
+        'USER': os.environ['PGUSER'],
+        'PASSWORD': os.environ['PGPASSWORD'],
+        'HOST': 'postgres-production-ba13.up.railway.app',  # Correct host
+        'PORT': '5432',  # Correct port
     }
 }
+
 
 
 # Password validation
