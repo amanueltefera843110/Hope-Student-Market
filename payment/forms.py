@@ -49,6 +49,7 @@ class ShippingForm(forms.ModelForm):
 
     class Meta:
         model = ShipingAddress
+        
         fields = [
             'shipping_full_name', 'shipping_email', 'shipping_address1',
             'shipping_address2', 'shipping_city', 'shipping_state', 
