@@ -95,9 +95,7 @@ DATABASES = {
         'PASSWORD': DB_PASSWORD_YO,
         'HOST': 'shortline.proxy.rlwy.net',
         'PORT': '5432',
-        'OPTIONS': {
-            'connect_timeout': 10,  # Optional: increase timeout
-        },
+
     }
 }
 
