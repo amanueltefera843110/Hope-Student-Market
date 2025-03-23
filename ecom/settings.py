@@ -94,7 +94,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': DB_PASSWORD_YO,
         'HOST': 'shortline.proxy.rlwy.net',
-        'PORT': '14981',
+        'PORT': '5432',
         'OPTIONS': {
             'connect_timeout': 10,  # Optional: increase timeout
         },
