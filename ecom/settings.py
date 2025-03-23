@@ -31,7 +31,7 @@ SECRET_KEY = os.environ['mySECRET_KEY']
 DEBUG = True
 
 ALLOWED_HOSTS = ["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
- CSRF_TRUSTED_ORIGINS =["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS =['http://hope-student-market-production.up.railway.app']
 
 
 
