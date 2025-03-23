@@ -94,11 +94,12 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': DB_PASSWORD_YO,
         'HOST': 'postgres.railway.internal',
-        'PORT': '5432',
-
+        'PORT': '14981',
+        'OPTIONS': {
+            'connect_timeout': 10,
+        },
     }
 }
-
 
 
 # Password validation
