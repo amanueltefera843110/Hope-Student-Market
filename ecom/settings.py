@@ -93,7 +93,7 @@ DATABASES = {
         'NAME': 'railway',
         'USER': 'postgres',
         'PASSWORD': DB_PASSWORD_YO,
-        'HOST': 'shortline.proxy.rlwy.net:14981',
+        'HOST': 'shortline.proxy.rlwy.net',
         'PORT': '5432',
 
     }
