@@ -30,7 +30,9 @@ SECRET_KEY = os.environ['mySECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
+ CSRF_TRUSTED_ORIGINS =["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
+
 
 
 # Application definition
@@ -90,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'MnJcpoxDyeMsroaAwViNQgxWNZcbHsFR',
+        'PASSWORD': DB_PASSWORD_YO,
         'HOST': 'shortline.proxy.rlwy.net',
         'PORT': '14981',
         'OPTIONS': {
