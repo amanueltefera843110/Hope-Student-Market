@@ -82,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ecom.wsgi.application"
 
-DB_PASSWORD_YO = os.environ['DB_PASSWORD_YO']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -92,9 +91,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': DB_PASSWORD_YO,
+        'PASSWORD': os.environ['DB_PASSWORD_YO'],
         'HOST': 'postgres.railway.internal',
-        'PORT': '14981',
+        'PORT': '5432',
         'OPTIONS': {
             'connect_timeout': 10,
         },
