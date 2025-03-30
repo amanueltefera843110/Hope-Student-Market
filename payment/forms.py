@@ -1,6 +1,8 @@
 from django import forms
 from .models import ShipingAddress
 
+from .models import Product
+
 
 from django import forms
 from .models import ShipingAddress
@@ -109,4 +111,5 @@ class PaymentForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Country'}), 
         required=True
     )
+
 

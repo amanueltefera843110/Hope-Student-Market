@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
 from .models import Profile
+from django import forms
+from .models import useraddedProduct
 
 
 class UserInfoForm(forms.ModelForm):
@@ -18,6 +20,32 @@ class UserInfoForm(forms.ModelForm):
 		model = Profile
 		fields = ('phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country', )
 
+class ProductForm(forms.ModelForm):
+    name = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Product Name'}),
+        required=True
+    )
+    description = forms.CharField(
+        label="",
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Product Description'}),
+        required=True
+    )
+    price = forms.DecimalField(
+        label="",
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Price'}),
+        required=True
+    )
+    stock = forms.IntegerField(
+        label="",
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Stock Quantity'}),
+        required=True
+    )
+    image = forms.ImageField(required=False)
+
+    class Meta:
+        model = useraddedProduct
+        fields = ['name', 'description', 'price', 'stock', 'image']
 
 
 class ChangePasswordForm(SetPasswordForm):

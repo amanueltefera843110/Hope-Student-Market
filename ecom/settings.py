@@ -120,22 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-
-
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',  # Or postgresql_psycopg2 for older Django versions
-            'NAME': 'railway',  # Replace with your database name
-            'USER': 'postgres',  # Replace with your database user
-            'PASSWORD': 'ggVEVpKGWZEJwdXnoGQUAOBaXtJWWcUu',  # Replace with your database password
-            'HOST': '127.0.0.1:8000',  # Or your PostgreSQL server address
-            'PORT': '5432',  # PostgreSQL default port
-        }
-    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -163,6 +147,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL= 'media/'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']  # For development
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

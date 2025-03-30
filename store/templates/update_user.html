@@ -1,56 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder"> 
-                   Update User </h1>
-
-                    <p class="lead fw-normal text-white-50 mb-0">Update User Profile</p>
-                </div>
+    <!-- Header -->
+    <header class="py-5" style="background: linear-gradient(to right, #002F6C, #FF7F32);">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Update Profile</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Manage your Hope College Marketplace account</p>
             </div>
-
-        </header>
-
-        <div class="container ">
-            <div class ="row">
-                <center>
-                    <div class= "col-md-6 offet-md-3"> 
-                      
-                        
-                       
-                    
-                        <br/><br>
-        <form method="POST" action ="{% url 'update_user' %}">
-            {% csrf_token %}
-            {{ user_form.as_p}}
-                                 <br/><br>
-                  <button type ="submit" class = "btn btn-secondary">
-                      Update Profile
-                  </button>
-            </form>
-
-            <br/>
-            <a href="{% url 'update_password' %}" class ='btn btn-secondary'>Update PassWord</a>
-
-
-                          
-                              <br/><br>
-                                <br/><br>
-                                <br/><br>
-                                <br/><br>
-                                <br/><br>
-
-
-                </div>
-                    </div>
-</center>
-            </div>
-
-
         </div>
+    </header>
 
+    <!-- Update Profile Form -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white" style="background-color: #FF7F32;">Update Your Information</div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'update_user' %}">
+                            {% csrf_token %}
+                            {{ user_form.as_p }}
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn text-white" style="background-color: #002F6C;">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'update_password' %}" class="btn btn-secondary">Update Password</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

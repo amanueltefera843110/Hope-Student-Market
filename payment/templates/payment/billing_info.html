@@ -47,6 +47,34 @@
                             <br/><br/>
                             <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
                         </div>
+                                                <div class="card-body">
+                            {% for useraddedProduct in cart_products %}
+                                <div class="d-flex justify-content-between">
+                                    <span>{{ useraddedProduct.name }}:</span>
+                                    <span>
+                                        {% if useraddedProduct.is_sale %}
+                                            <span class="text-danger">${{ useraddedProduct.sale_price }}</span>
+                                        {% else %}
+                                            ${{ useraddedProduct.price }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <small>Quantity: 
+                                    {% for key, value in quantities.items %}
+                                        {% if key == useraddedProduct.id|slugify %}
+                                            {{ value }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </small>
+                                <br/><br/>
+                            {% endfor %}
+                            <div class="d-flex justify-content-between">
+                                <strong>Total:</strong>
+                                <strong>${{ totals }}</strong>
+                            </div>
+                            <br/><br/>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+                        </div>
                     </div>
                     <br/><br/>
 
@@ -79,26 +107,19 @@
 
                     <br/><br/>
 
-                    <div class="card">
-                        <div class="card-header">
-                            Billing Info
-                        </div>
-                        <div class="card-body">
-                            <form method="POST" action="{% url 'process_order' %}">
-                                {% csrf_token %}
-                                {{ billing_form.as_p }}
-                            </form>
-                        </div>
-                    </div>
-                    <br/>
-
-                    <button type="submit" class="btn btn-secondary w-100">
-                        Pay Now
-                    </button>
-                    </form>
-                    <br/><br/>
-                </div>
-            </div>
-        </div>
-
+<div class="card">
+    <div class="card-header">
+        Billing Info
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{% url 'process_order' %}">
+            {% csrf_token %}
+            {{ billing_form.as_p }}
+            <button type="submit" class="btn btn-secondary w-100">
+                Pay Now
+            </button>
+        </form>
+    </div>
+</div> 
+</div>
 {% endblock %}

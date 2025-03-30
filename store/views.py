@@ -13,6 +13,8 @@ from django import forms
 from django.db.models import Q
 import json
 from cart.cart import Cart
+from .forms import ProductForm
+from .models import Product, useraddedProduct
 
 
 def search(request):
@@ -191,12 +193,29 @@ def product(request,pk):
 	product = Product.objects.get(id=pk)
 	return render(request, 'product.html', {'product':product})
 
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirect to the product list page
+    else:
+        form = ProductForm()
+    
+    return render(request, 'add_product.html', {'form': form})
 
-
-
-
-
-
+def useraddedProduct_detail(request, pk):
+    user_product = useraddedProduct.objects.get(id=pk)
+    return render(request, 'useraddedProduct.html', {'useraddedProduct': user_product})
+    
+def home(request):
+    products = Product.objects.all()
+    user_products = useraddedProduct.objects.all()
+    
+    return render(request, 'home.html', {
+        'products': products,
+        'user_products': user_products
+    })
 
 
 
