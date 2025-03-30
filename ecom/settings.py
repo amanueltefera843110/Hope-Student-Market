@@ -33,7 +33,7 @@ DEBUG = True
 #ALLOWED_HOSTS = ["hope-student-market-production.up.railway.app", 'http://hope-student-market-production.up.railway.app']
 #CSRF_TRUSTED_ORIGINS =['http://hope-student-market-production.up.railway.app']
 
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -44,8 +44,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "store",
+
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "cart",
+    "store",
     "paypal.standard.ipn",
     "payment",
     'whitenoise.runserver_nostatic',
@@ -58,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
@@ -114,6 +120,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',  # Or postgresql_psycopg2 for older Django versions
+            'NAME': 'railway',  # Replace with your database name
+            'USER': 'postgres',  # Replace with your database user
+            'PASSWORD': 'ggVEVpKGWZEJwdXnoGQUAOBaXtJWWcUu',  # Replace with your database password
+            'HOST': '127.0.0.1:8000',  # Or your PostgreSQL server address
+            'PORT': '5432',  # PostgreSQL default port
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -152,3 +174,43 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 PAYPAL_TEST = True
 
 PAYPAL_RECEIVER_EMAIL = 'bustaccount@gmail.com' # Business Sandbox account
+
+
+SITE_ID = 2 # new
+ 
+# Login Redirects
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/logout/"
+
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Automatically register the user on first Google login
+SOCIALACCOUNT_QUERY_EMAIL = True  # Request email from Google
+
+
+
+ACCOUNT_FORMS = {} #sign up and other account forms 
+# Get environment variables safely
+CLIENT_ID = os.getenv('CLIENT_ID', None)
+CLIENT_SECRET = os.getenv('CLIENT_SECRET', None)
+
+# Check if credentials exist, otherwise raise an error
+if not CLIENT_ID or not CLIENT_SECRET:
+    raise ValueError("Missing Google OAuth CLIENT_ID or CLIENT_SECRET. Check your .env file.")
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+         'APP': {
+             'client_id': os.environ['CLIENT_ID'],  # Replace with your Google Client ID
+             'secret': os.environ['CLIENT_SECRET'],  # Replace with your Google Client Secret
+             'redirect_uri':'http://127.0.0.1:8000/accounts/google/login/callback/',          #     Replace with your callback URL
+            },
+            'AUTH_PARAMS': {
+            'access_type':'online',
+        }
+        }       
+}
