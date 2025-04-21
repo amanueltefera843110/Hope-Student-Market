@@ -14,7 +14,7 @@ from django.db.models import Q
 import json
 from cart.cart import Cart
 from .forms import ProductForm
-from .models import Product, useraddedProduct
+from .models import Product
 
 
 def search(request):
@@ -203,19 +203,6 @@ def add_product(request):
         form = ProductForm()
     
     return render(request, 'add_product.html', {'form': form})
-
-def useraddedProduct_detail(request, pk):
-    user_product = useraddedProduct.objects.get(id=pk)
-    return render(request, 'useraddedProduct.html', {'useraddedProduct': user_product})
-    
-def home(request):
-    products = Product.objects.all()
-    user_products = useraddedProduct.objects.all()
-    
-    return render(request, 'home.html', {
-        'products': products,
-        'user_products': user_products
-    })
 
 
 

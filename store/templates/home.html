@@ -8,11 +8,12 @@
             <div class="row gx-4 gx-lg-5 h-100 align-items-center">
                 <div class="col-lg-6 text-white">
                     <h1 class="display-3 fw-bold mb-3">Hope College Marketplace</h1>
-                    <p class="lead mb-4">Discover official merchandise and student-to-student deals all in one place</p>
+                    <p class="lead mb-4">Discover official merchandise and student‑to‑student deals all in one place</p>
                     <div class="d-flex gap-3">
                         <a href="#featured" class="btn btn-light btn-lg px-4">Shop Now</a>
-                        <a href="#community" class="btn btn-light btn-lg px-4">Community  Items</a>
+                    {% if user.is_authenticated %}
                         <a href="{% url 'add_product' %}" class="btn btn-outline-light btn-lg px-4">Sell Items</a>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -27,128 +28,67 @@
                 <a href="#" class="btn btn-link text-decoration-none">View All <i class="bi bi-arrow-right"></i></a>
             </div>
             
-            <div class="row gx-4 gx-lg-5">
-                {% for product in products %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card product-card h-100 border-0 shadow-sm">
-                            {% if product.is_sale %}
-                                <div class="badge bg-danger sale-badge">SALE</div>
-                            {% endif %}
-                            
-                            <div class="product-image-container">
-                                <div class="product-image-wrapper">
-                                    {% if product.image %}
-                                        <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-                                    {% else %}
-                                        <img class="product-img" src="{% static 'images/placeholder-product.jpg' %}" alt="No image available" loading="lazy">
-                                    {% endif %}
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-heart"></i></button>
-                                    <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-eye"></i></button>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body px-3 py-4">
-                                <div class="product-category small text-muted mb-1">{{ product.category }}</div>
-                                <h3 class="product-title h6 mb-2">{{ product.name }}</h3>
-                                
-                                <div class="product-price mb-3">
-                                    {% if product.is_sale %}
-                                        <span class="text-danger fw-bold">${{ product.sale_price }}</span>
-                                        <span class="text-decoration-line-through text-muted small ms-2">${{ product.price }}</span>
-                                    {% else %}
-                                        <span class="fw-bold">${{ product.price }}</span>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product-rating small text-warning">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
-                                        <span class="text-muted ms-1">(24)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer bg-white border-0 pb-3 pt-0 px-3">
-                                <a href="{% url 'product' product.id %}" class="btn btn-primary w-100">
-                                    <i class="bi bi-cart-plus me-2"></i> Add to Cart
-                                </a>
-                            </div>
+<div class="row gx-4 gx-lg-5">
+    {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card product-card h-100 border-0 shadow-sm">
+                {% if product.is_sale %}
+                    <div class="badge bg-danger sale-badge">SALE</div>
+                {% endif %}
+                
+                <div class="product-image-container">
+                    <div class="product-image-wrapper">
+                        {% if product.image %}
+                            <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                        {% else %}
+                            <img class="product-img" src="{% static 'images/placeholder-product.jpg' %}" alt="No image available" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-heart"></i></button>
+                        <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
+                
+                <div class="card-body px-3 py-4">
+                    <div class="product-category small text-muted mb-1">{{ product.category }}</div>
+                    <h3 class="product-title h6 mb-2">{{ product.name }}</h3>
+                    <p class="student-id text-muted small mb-2"><i class="bi bi-person-badge me-1"></i>ID: {{ product.youStudentID }}</p>
+                    
+                    <div class="product-price mb-3">
+                        {% if product.is_sale %}
+                            <span class="text-danger fw-bold">${{ product.sale_price }}</span>
+                            <span class="text-decoration-line-through text-muted small ms-2">${{ product.price }}</span>
+                        {% else %}
+                            <span class="fw-bold">${{ product.price }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="product-rating small text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <span class="text-muted ms-1">(24)</span>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
+                
+                <div class="card-footer bg-white border-0 pb-3 pt-0 px-3">
+                    <a href="{% url 'product' product.id %}" class="btn btn-primary w-100">
+                        <i class="bi bi-cart-plus me-2"></i> Add to Cart
+                    </a>
+                </div>
             </div>
         </div>
-    </section>
+    {% empty %}
+        <p class="text-center">No products available at the moment.</p>
+    {% endfor %}
+</div>
 
-    <!-- Community Marketplace Section -->
-    <section id="community" class="py-5 bg-light">
-        <div class="container px-4 px-lg-5">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <h2 class="fw-bold mb-0">Community Marketplace</h2>
-                <a href="#" class="btn btn-outline-primary">Sell Your Item</a>
-            </div>
-            
-            <div class="row gx-4 gx-lg-5">
-                {% for product in user_products %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card product-card h-100 border-0 shadow-sm">
-                            <div class="badge bg-info community-badge">STUDENT</div>
-                            
-                            <div class="product-image-container">
-                                <div class="product-image-wrapper">
-                                    {% if product.image %}
-                                        <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-                                    {% else %}
-                                        <img class="product-img" src="{% static 'images/placeholder-community.jpg' %}" alt="No image available" loading="lazy">
-                                    {% endif %}
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-heart"></i></button>
-                                    <button class="btn btn-sm btn-dark rounded-circle"><i class="bi bi-eye"></i></button>
-                                </div>
-                            </div>
-                            
-                            <div class="card-body px-3 py-4">
-                                <h3 class="product-title h6 mb-2">{{ product.name }}</h3>
-                                <div class="product-price fw-bold text-success mb-3">${{ product.price }}</div>
-                                <p class="product-description small text-muted mb-3">{{ product.description|truncatechars:80 }}</p>
-                                
-                                <div class="seller-info d-flex align-items-center">
-                                    <div class="seller-avatar me-2">
-                                        <i class="bi bi-person-circle text-muted"></i>
-                                    </div>
-                                    <div class="seller-details small">
-                                        <div class="seller-name fw-bold">Student Seller</div>
-                                        <div class="seller-rating text-warning small">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer bg-white border-0 pb-3 pt-0 px-3">
-                                <a href="{% url 'useraddedProduct' product.id %}" class="btn btn-outline-secondary w-100">
-                                    <i class="bi bi-chat-left-text me-2"></i> Contact Seller
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- Additional E-commerce Sections -->
+    <!-- Why Shop With Us & Newsletter Signup -->
     <section class="py-5 bg-white">
         <div class="container px-4 px-lg-5">
             <div class="row gx-5 align-items-center">
@@ -162,7 +102,7 @@
                         </div>
                         <div>
                             <h3 class="h5">Fast Campus Delivery</h3>
-                            <p class="text-muted mb-0">Get your items delivered to your dorm or picked up at campus locations.</p>
+                            <p class="text-muted mb-0">Get your items delivered to your dorm or picked up on campus.</p>
                         </div>
                     </div>
                     <div class="d-flex mb-4">
@@ -173,7 +113,7 @@
                         </div>
                         <div>
                             <h3 class="h5">Verified Sellers</h3>
-                            <p class="text-muted mb-0">All community sellers are verified Hope College students.</p>
+                            <p class="text-muted mb-0">All items are official Hope College merchandise.</p>
                         </div>
                     </div>
                     <div class="d-flex">
@@ -184,14 +124,14 @@
                         </div>
                         <div>
                             <h3 class="h5">Easy Returns</h3>
-                            <p class="text-muted mb-0">Simple return policy for official merchandise.</p>
+                            <p class="text-muted mb-0">Simple return policy for all orders.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="bg-light p-5 rounded-3">
                         <h3 class="h4 mb-4">Join Our Community</h3>
-                        <p class="text-muted mb-4">Sign up to get exclusive deals and early access to new merchandise.</p>
+                        <p class="text-muted mb-4">Sign up to get exclusive deals and early access.</p>
                         <form>
                             <div class="mb-3">
                                 <input type="email" class="form-control" placeholder="Your email address">
@@ -209,116 +149,77 @@
             padding: 5rem 0;
             min-height: 500px;
         }
-        
         .product-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-radius: 0.75rem;
             overflow: hidden;
         }
-        
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        
         .product-image-container {
             position: relative;
             height: 0;
-            padding-bottom: 100%; /* Square aspect ratio */
+            padding-bottom: 100%;
             overflow: hidden;
             background: #f8f9fa;
         }
-        
         .product-image-wrapper {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
         .product-img {
             object-fit: contain;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             max-height: 100%;
             transition: transform 0.5s ease;
             background-color: white;
             padding: 10px;
         }
-        
         .product-card:hover .product-img {
             transform: scale(1.05);
         }
-        
         .product-actions {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 10px; right: 10px;
             opacity: 0;
             transition: opacity 0.3s ease;
-            display: flex;
-            gap: 5px;
+            display: flex; gap: 5px;
         }
-        
         .product-card:hover .product-actions {
             opacity: 1;
         }
-        
-        .sale-badge, .community-badge {
+        .sale-badge {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 10px; left: 10px;
             font-size: 0.75rem;
             padding: 0.35rem 0.5rem;
             z-index: 1;
         }
-        
         .product-title {
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 3em; /* Ensure consistent height for 2 lines */
+            min-height: 3em;
         }
-        
-        .product-description {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 4.5em; /* Ensure consistent height for 3 lines */
-        }
-        
         .icon-circle {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
         }
-        
         @media (max-width: 768px) {
-            .hero-section {
-                text-align: center;
-                padding: 3rem 0;
-                min-height: auto;
-            }
-            
-            .hero-section .btn {
-                display: block;
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-            
-            .product-image-container {
-                padding-bottom: 80%; /* Slightly taller on mobile */
-            }
+            .hero-section { text-align: center; padding: 3rem 0; }
+            .hero-section .btn { display: block; width: 100%; margin-bottom: 1rem; }
+            .product-image-container { padding-bottom: 80%; }
         }
     </style>
 {% endblock %}

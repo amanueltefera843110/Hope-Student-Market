@@ -3,7 +3,10 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPassw
 from django import forms
 from .models import Profile
 from django import forms
-from .models import useraddedProduct
+from .models import Product, Category
+
+
+
 
 
 class UserInfoForm(forms.ModelForm):
@@ -20,34 +23,65 @@ class UserInfoForm(forms.ModelForm):
 		model = Profile
 		fields = ('phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country', )
 
+
+
+
 class ProductForm(forms.ModelForm):
-    name = forms.CharField(
+    youStudentID = forms.CharField(
         label="",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Product Name'}),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Student ID'
+        }),
+        required=True
+    )
+    name= forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Product Name'
+        }),
         required=True
     )
     description = forms.CharField(
         label="",
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Product Description'}),
-        required=True
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Product Description'
+        }),
+        required=False
     )
     price = forms.DecimalField(
         label="",
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Price'}),
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Price'
+        }),
         required=True
     )
-    stock = forms.IntegerField(
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True
+    )
+    image = forms.ImageField(
         label="",
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Stock Quantity'}),
-        required=True
+        required=True,
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'})
     )
-    image = forms.ImageField(required=False)
+
 
     class Meta:
-        model = useraddedProduct
-        fields = ['name', 'description', 'price', 'stock', 'image']
+        model = Product
+        fields = [
+            'youStudentID',
+            'name',
+            'description',
+            'price',
+            'category',
+            'image',
 
-
+        ]
 class ChangePasswordForm(SetPasswordForm):
 	class Meta:
 		model = User
