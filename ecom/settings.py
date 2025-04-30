@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
     "cart",
     "store",
     "paypal.standard.ipn",
@@ -173,33 +172,7 @@ LOGOUT_REDIRECT_URL = "/logout/"
 
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-SOCIALACCOUNT_AUTO_SIGNUP = True  # Automatically register the user on first Google login
-SOCIALACCOUNT_QUERY_EMAIL = True  # Request email from Google
 
 
 
 ACCOUNT_FORMS = {} #sign up and other account forms 
-# Get environment variables safely
-CLIENT_ID = os.getenv('CLIENT_ID', None)
-CLIENT_SECRET = os.getenv('CLIENT_SECRET', None)
-
-# Check if credentials exist, otherwise raise an error
-if not CLIENT_ID or not CLIENT_SECRET:
-    raise ValueError("Missing Google OAuth CLIENT_ID or CLIENT_SECRET. Check your .env file.")
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-         'APP': {
-             'client_id': os.environ['CLIENT_ID'],  # Replace with your Google Client ID
-             'secret': os.environ['CLIENT_SECRET'],  # Replace with your Google Client Secret
-             'redirect_uri':'http://127.0.0.1:8000/accounts/google/login/callback/',          #     Replace with your callback URL
-            },
-            'AUTH_PARAMS': {
-            'access_type':'online',
-        }
-        }       
-}
