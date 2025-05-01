@@ -173,6 +173,12 @@ LOGOUT_REDIRECT_URL = "/logout/"
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'bereket2titan@gmail.com'
+EMAIL_HOST_PASSWORD = 'mcrv jssz ysoj naov'
+DEFAULT_FROM_EMAIL = 'Titan Platform <bereket2titan@gmail.com>'
 
 ACCOUNT_FORMS = {} #sign up and other account forms 

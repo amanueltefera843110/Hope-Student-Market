@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from .models import Product, Category, Profile
 
 from django.contrib.auth import authenticate , login , logout
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm 
@@ -179,7 +181,16 @@ def register_user(request):
 			form.save()#save it if its good
 			username =form.cleaned_data['username']#getusername
 			password =form.cleaned_data['password1']#getpassword
+			useremail = form.cleaned_data['email']
 			# log in user
+			send_mail(
+                subject="Welcome to Our Site!",
+                message="Thanks for registering on our site. We’re glad to have you!",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[useremail],
+                fail_silently=False,  # set to True in production to avoid errors crashing the app
+            )
+
 			user = authenticate(username= username , password= password)
 			login(request, user)
 			messages.success(request, ("You have Register successfully, Please fill out your User info"))
